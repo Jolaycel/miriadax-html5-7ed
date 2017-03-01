@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Página personal de Marco A. González</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<style type="text/css">
+body {
+	font-family: 'Roboto',serif;
+	background-color: black;
+	color: white;
+}
+h1 {
+	color: lightgray;
+}
+h1 span {
+	display: block;
+	font-size: 0.4em;
+	color: gray;
+}
+h2 {
+	color: lightgray;
+}
+a {
+	color: white
+}
+a:hover {
+	background-color: lightgray;
+	color: black;
+	text-decoration: underline;
+}
+.caja {
+	width: 125px;
+	border-radius: 10px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	margin: 5px;
+	padding: 0px;
+	border: 2px solid magenta;
+	border-bottom: none;
+	background: linear-gradient(to right, purple, black);
+	min-width: 640px;
+}
+.caja h2 {
+	color: magenta;
+	text-align: center;
+}
+.copyright {
+	font-size: 0.9em;
+}
+.code {
+	font-family: 'Consolas', sans-serif;
+}
+</style>
+</head>
+<body>
+<h1>P&aacute;gina personal de Marco A. Gonz&aacute;lez<span>para el MOOC de Desarrollo en HTML5, CSS y Javascript de Apps Web, Android, IOS... (7&ordf; ed.)</span></h1>
+<p>Entrega P2P obligatoria del 2&ordm; m&oacute;dulo.</p>
+<p>La pr&aacute;ctica incluye distintos tonos de gris (textos), negro (fondo) y un degradado de p&uacute;rpura a negro (caja de bordes redondeados).<br/>
+La fuente empleada es <a href="https://fonts.google.com/specimen/Roboto">&quot;Roboto&quot;</a> a trav&eacute;s de <a href="https://fonts.google.com/">Google Fonts</a>, se incluyen encabezados <span class="code">&lt;h1&gt;</span> y <span class="code">&lt;h2&gt;</span>, caracteres especiales e im&aacute;genes en formato bitmap y vectorial (la miniatura de LEGO&trade;) adem&aacute;s de un v&iacute;deo de <a href="https://www.youtube.com">YouTube</a>&reg;.</p>
+</p>
+<h2>Bitmap</h2>
+<picture>
+	<source media="(min-width: 900px)" srcset="imagenes/shaum6.jpg">
+	<source media="(min-width: 800px)" srcset="imagenes/shaum5.jpg">
+	<source media="(min-width: 600px)" srcset="imagenes/shaum4.jpg">
+	<source media="(min-width: 500px)" srcset="imagenes/shaum3.jpg">
+	<img src="imagenes/ingress.jpg" alt="Ingress">
+</picture>
+<h2>SVG</h2>
+	<object type="image/svg+xml" data="imagenes/legoMan.svg" border="1"></object>
+	<p class="copyright">Licencia Creative Commons con atribuci&oacute;n (Allan McAvoy, visita <a href="http://www.allanmcavoy.co.uk">www.allanmcavoy.co.uk</a>)</p>
+<div class="caja">
+	<h2>Video</h2>
+	<iframe width="640" height="360" src="https://www.youtube.com/embed/CFp_8Sah6YU" frameborder="0" allowfullscreen>El navegador no soporta iframes. Vea el video en <a href="https://www.youtube.com/embed/CFp_8Sah6YU">https://www.youtube.com/embed/CFp_8Sah6YU</a></iframe>
+</div>
+</body>
+</html>

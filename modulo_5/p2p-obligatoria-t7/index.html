@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calculadora Práctica Obligatoria Módulo 5</title>
+<meta charset="utf-8">
+<style>
+	@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,900);
+	body {
+		width: 800px;
+		margin: auto;
+		font-family: 'Roboto', sans-serif;
+  		font-weight: 400;
+	}
+	.nuevo {
+		background-color: lightgray;
+	}
+	.calculadora {
+		background-color: lightgray;
+		width: 70%;
+		margin: auto;
+	}
+	.boton {
+		background-color: gray;
+		color: white;
+		padding: 5px;
+		margin: 3px;
+		text-decoration: none;
+	}
+	.boton:hover {
+		background-color: lightgray;
+	}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var num, acc = 0, op = "";
+  // Inicializacion de eventos sobre los botones y operaciones asociadas a cada evento
+  $(function() {
+    num = $("#num");
+    // Operaciones binarias (dos operandos)
+    $("#num").on("click", function() {
+     $("#num").val("");
+    });
+    $("#mas").on("click", function() {
+    	op = "+";
+    	acc = +num.val(); 
+    });
+    $("#menos").on("click", function() {
+    	op = "-";
+    	acc = +num.val();
+    });
+    $("#multiplica").on("click", function() {
+    	op = "*";
+    	acc = +num.val();
+    });
+    $("#divide").on("click", function() {
+    	op = "/";
+    	acc = +num.val();
+    });
+    $("#potN").on("click", function() {
+    	op = "pN";
+    	acc = +num.val();
+    });
+    // Operaciones unitarias (un operando)
+    $("#pot").on("click", function() {
+    	num.val(+num.val() * +num.val());
+    });
+    $("#pot2").on("click", function() {
+    	num.val(Math.pow(2, +num.val()));
+    });
+    $("#factorial").on("click", function() {
+    	var calculo = 1;
+		// 5 * 4 * 3 * 2 * 1 es igual que 1 * 2 * 3 * 4 * 5
+		for (var i = 1; i <= +num.val(); i++) {
+			calculo = (calculo * i);
+		}
+		// El factorial de 0 es igual a 1 (0! = 1)
+		if (calculo == 0) {
+			calculo = 1;
+		}
+		num.val(calculo);
+    });
+    $("#raiz").on("click", function() {
+    	num.val(Math.sqrt(+num.val()));
+    });
+    $("#inverso").on("click", function() {
+    	num.val(1 / +num.val());
+    });
+    $("#parte_entera").on("click", function() {
+    	num.val((+num.val() < 0) ? Math.ceil(+num.val()) : Math.floor(+num.val()));
+    });
+    $("#sumatorio_x").on("click", function () {
+    	var calculo = 0;
+    	var arrayOperandos = num.val().split(",");
+    	// Itera por cada operando
+   		arrayOperandos.forEach(function(operando) {
+   			calculo = calculo + +operando;
+   		});
+   		num.val(calculo);
+    });
+    $("#producto_x").on("click", function () {
+    	var calculo = 1;
+    	var arrayOperandos = num.val().split(",");
+    	// Itera por cada operando
+   		arrayOperandos.forEach(function(operando) {
+			calculo = +calculo * +operando;
+   		});
+   		num.val(calculo);
+    });
+    // Calculadora
+    $("#calcular").on("click", function() {
+	    var calculo = 0;
+	    if (op === "+") {
+	    	calculo = +acc + +num.val();
+	    }
+	    if (op === "-") {
+	    	calculo = +acc - +num.val();
+	    }
+	    if (op === "*") {
+	    	calculo = +acc * +num.val();
+	    }
+	    if (op === "/") {
+	    	calculo = +acc / +num.val();
+	    }
+	    if (op === "pN") {
+	    	calculo = Math.pow(+acc, +num.val());
+	    }
+	    // Actualiza el resultado del calculo
+	   	num.val(calculo);
+    });
+  });
+</script>
+</head>
+<body>
+	<h1>Calculadora</h1>
+	<p>Buenos días, bienvenido a la calculadora de Marco Antonio González</p>
+	<h2>Requisitos del ejercicio</h2>
+	<p>Integrar en una sola calculadora los siguientes botones de operaciones matemáticas:</p>
+	<ol>
+		<li>) Operaciones unitarias (con un solo operando):
+			<ol>
+				<li>1) x^2 (número elevado al cuadrado)</li>
+				<li>2) 1/x (inverso del número)</li>
+				<li>3) sqrt(x) (raiz cuadrada del número)</li>
+				<li>4) parte_entera(x) (parte entera de x: si x es positivo devuelve Math.floor(x) y si es negativo devuelve -Math.ceil(x))</li>
+				<li class="nuevo">5) 2^n (potencia n del número 2)</li>
+				<li class="nuevo">6) n! (factorial del número n: n*(n-1)*(n-2)*...*3*2*1)</li>
+			</ol>
+		</li>
+		<li>) Operaciones binarias (con dos operandos):
+			<ol>
+				<li>1) +. -. *, / (suma, resta, multiplicación y división)</li>
+				<li>2) x^y (x elevado a y)</li>
+			</ol>
+		</li>
+		<li>) Operaciones con n operandos introducidos en formato CSV:
+			<ol>
+				<li class="nuevo">1) sumatorio(x) (sumatorio de n números)</li>
+				<li class="nuevo">2) producto(x) (producto de n números)</li>
+			</ol>
+		</li>
+	</ol>
+
+	<p>Número:<input type="text" size="12" id="num"></p>
+	<p>
+		<a href="#" class="boton" id="mas">+</a>
+		<a href="#" class="boton" id="menos">-</a>
+		<a href="#" class="boton" id="multiplica">*</a>
+		<a href="#" class="boton" id="divide">/</a>
+		<a href="#" class="boton" id="potN">x<sup>y</sup></a>
+		<a href="#" class="boton" id="pot">x<sup>2</sup></a>
+		<a href="#" class="boton" id="pot2">2<sup>x</sup></a>
+		<a href="#" class="boton" id="factorial">n!</a>
+	</p>
+	<p>
+		<a href="#" class="boton" id="inverso">1/x</a>
+		<a href="#" class="boton" id="raiz">sqrt(x)</a>
+		<a href="#" class="boton" id="parte_entera">parte_entera(x)</a>
+	</p>
+	<p>
+		<a href="#" class="boton" id="sumatorio_x">sumatorio(x)</a>
+		<a href="#" class="boton" id="producto_x">producto(x)</a>
+		<a href="#" class="boton" id="calcular">=</a>
+	</p>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ejercicio P2P opcional</title>
+<style type="text/css">
+.copyright {font-size:0.9em;}
+</style>
+</head>
+<body>
+	<article>
+		<h1>Ejercicio P2P opcional</h1>
+		<section>
+			<h2>Imágenes <em>responsive</em></h2>
+			<p>Para poder ver la interacción del elemento &lt;picture&gt; hay que ir recuciendo la ventana del navegador a los siguientes anchos: 900px, 800px, 600px, 500px, 400px.</p>
+			<picture>
+				<source media="(min-width: 900px)" srcset="imagenes/shaum6.jpg">
+				<source media="(min-width: 800px)" srcset="imagenes/shaum5.jpg">
+				<source media="(min-width: 600px)" srcset="imagenes/shaum4.jpg">
+				<source media="(min-width: 500px)" srcset="imagenes/shaum3.jpg">
+				<source media="(min-width: 400px)" srcset="imagenes/shaum2.jpg">
+				<img src="imagenes/shaum1.jpg" alt="La Oveja Shaum">
+			</picture>
+		</section>
+		<section>
+			<h2>Vídeo</h2>
+			<iframe width="640" height="360" src="https://www.youtube.com/embed/CFp_8Sah6YU" frameborder="0" allowfullscreen>El navegador no soporta iframes. <a href="https://www.youtube.com/embed/CFp_8Sah6YU">https://www.youtube.com/embed/CFp_8Sah6YU</a>
+			</iframe>
+		</section>
+		<section>
+			<h2>Gráfico SVG</h2>
+			<p class="copyright">Licencia Creative Commons con atribución (Allan McAvoy, visita <a href="http://www.allanmcavoy.co.uk">www.allanmcavoy.co.uk</a>)</p>
+			<object type="image/svg+xml" data="imagenes/legoMan.svg"></object>
+		</section>
+	</article>
+</body>
+</html>

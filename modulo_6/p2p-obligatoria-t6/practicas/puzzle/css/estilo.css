@@ -1,0 +1,37 @@
+* {
+	user-select: none; /* user-select, hace el objeto no seleccionable */
+	-webkit-touch-callout: none; /* anula el efecto visual del touch prolongado sobre el objeto */
+	-webkit-tap-highlight-color: rgba(0,0,0,0); /* anula feedback de color al hacer tap en link */
+	-webkit-tap-highlight-color: transparent; /* similar anterior en algunos android */
+	margin:0;
+	padding:0;
+}
+#puzzle { 
+	list-style-type: none;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#puzzle li { 
+	float: left; 
+	width: 24.8%; 
+}
+
+#puzzle li img {
+	vertical-align:bottom;
+	width: 100%; 
+	height: auto;
+}
+.izda {
+	float:left;
+}
+.dcha {
+	float:right;
+}
+
+@media (orientation:landscape) {
+	#puzzle { width:80vh; }
+}
+@media (orientation:portrait) {
+	#puzzle { width:80%; }
+}

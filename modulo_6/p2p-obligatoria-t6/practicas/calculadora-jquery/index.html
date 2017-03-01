@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css">
+<style type="text/css">
+.visor {
+	background-color: #00C0FF;
+	color: white;
+	border-radius: 5px;
+	border: 1px solid #00C0FF;
+	height: 2.3em;
+	padding: 5px 10px;
+	text-align: right;
+}
+.visor span {
+	width: 100%;
+}
+.instrucciones {
+	width: 50%;
+	float: left;
+}
+.calculadora {
+	width: 50%;
+	float: left;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery-ui.min.js"></script>
+<script src="js/calculadora.js"></script>
+<script type="text/javascript">
+$(function() {
+	$(".arrastrable").draggable({
+		cursor: "move",
+		revert: "invalid",
+		helper:"clone"
+	});
+	$(".soltable").droppable({
+		drop: function(event, ui) {
+			$("#mem").html($("#num").html());
+			$("#mem").effect('highlight', {}, 500, function() {
+				setTimeout(function() {
+        		$( "#mem" ).removeAttr( "style" ).hide().fadeIn();
+        		}, 2000 );
+			});
+		}
+	});
+});
+</script>
+</head>
+<body>
+<div class="container">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#miMenu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span> 
+				</button>
+				<a class="navbar-brand" href="#brand">MAG</a>
+			</div>
+			<div class="collapse navbar-collapse" id="miMenu">
+				<ul class="nav navbar-nav">
+					<li><a href="../../p2p-m6-t6-obligatoria.html">Prácticas</a></li>
+					<li><a href="../puzzle/index.html">Puzzle</a></li>
+					<li class="active">
+						<a href="#calculadora" class="dropdown-toggle" data-toggle="dropdown">Calculadora <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<!--<li><a href="../practicas/calculadora-js/index.html">Versión JS</a></li>-->
+							<li class="active"><a href="#calculadora-jquery">Versión jQuery</a></li>
+						</ul>
+					</li> 
+					<!--<li><a href="../practicas/tangram/index.html">Tangram</a></li>-->
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<section class="container-fluid">
+		<h1>Calculadora</h1>
+		<p>Buenos días, bienvenido a la calculadora de Marco Antonio González</p>
+		<aside class="instrucciones">
+			<h2>Requisitos del ejercicio</h2>
+			<p>Integrar en una sola calculadora los siguientes botones de operaciones matemáticas:</p>
+			<ol>
+				<li><span style="margin-left:-5px;">)</span> Operaciones unitarias (con un solo operando):
+					<ul>
+						<li>1.1) x^2 (número elevado al cuadrado)</li>
+						<li>1.2) 1/x (inverso del número)</li>
+						<li>1.3) sqrt(x) (raiz cuadrada del número)</li>
+						<li>1.4) parte_entera(x) (parte entera de x: si x es positivo devuelve Math.floor(x) y si es negativo devuelve -Math.ceil(x))</li>
+						<li>1.5) 2^n (potencia n del número 2)</li>
+						<li>1.6) n! (factorial del número n: n*(n-1)*(n-2)*...*3*2*1)</li>
+					</ul>
+				</li>
+				<li>) Operaciones binarias (con dos operandos):
+					<ul>
+						<li>2.1) +. -. *, / (suma, resta, multiplicación y división)</li>
+						<li>2.2) x^y (x elevado a y)</li>
+					</ul>
+				</li>
+				<li>) Operaciones con n operandos introducidos en formato CSV:
+					<ul>
+						<li>3.1) sumatorio(x) (sumatorio de n números)</li>
+						<li>3.2) producto(x) (producto de n números)</li>
+					</ul>
+				</li>
+				<li>) Operaciones con memoria
+					<ul>
+						<li>4.1) ToM: mueve el número del cajetín a la memoria</li>
+						<li>4.2) FromM: mueve el número de la memoria al cajetín</li>
+					</ul>
+				</li>
+			</ol>
+		</aside>
+		<div class="calculadora">
+			<p>Memoria <span id="mem" class="form-control soltable"></span></p>
+			<p>
+				<button type="button" class="btn btn-success" id="a_mem">ToM</button>
+				<button type="button" class="btn btn-warning" id="de_mem">FromM</button>
+				<button type="button" class="btn btn-danger" id="vaciar_mem">VaciarM</button>
+			</p>
+			<p class="visor arrastrable" id="num" contenteditable="true">0</p>
+			<p>
+				<button type="button" class="btn btn-default" id="mas">+</button>
+				<button type="button" class="btn btn-default" id="menos">-</button>
+				<button type="button" class="btn btn-default" id="multiplica">*</button>
+				<button type="button" class="btn btn-default" id="divide">/</button>
+				<button type="button" class="btn btn-default" id="potN">x<sup>y</sup></button>
+				<button type="button" class="btn btn-default" id="pot">x<sup>2</sup></button>
+				<button type="button" class="btn btn-default" id="pot2">2<sup>x</sup></button>
+				<button type="button" class="btn btn-default" id="factorial">n!</button>
+				<button type="button" class="btn btn-default" id="inverso">1/x</button>
+			</p>
+			<p>
+				<button type="button" class="btn btn-warning" id="raiz">sqrt(x)</button>
+				<button type="button" class="btn btn-warning" id="parte_entera">parte_entera(x)</button>
+				<button type="button" class="btn btn-warning" id="sumatorio_x">sumatorio(x)</button>
+				<button type="button" class="btn btn-warning" id="producto_x">producto(x)</button>
+			</p>
+			<p>
+				<button type="button" class="btn btn-success" id="calcular">=</button>
+			</p>
+		</div>
+	</section>
+	<footer>
+		<div class="panel-footer">Marco Antonio González</div>
+	</footer>
+</body>
+</html>

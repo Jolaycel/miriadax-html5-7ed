@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calculadora Práctica Obligatoria Módulo 4</title>
+<meta charset="utf-8">
+<script type="text/javascript">
+  var num, acc = 0, op = "";
+
+  // Operaciones binarias (dos operandos)
+  function mas()   { acc = num.value;  op = "+"; }
+  function menos() { acc = num.value;  op = "-"; }
+  function multiplica() { acc = num.value;  op = "*"; }
+  function divide() { acc = num.value;  op = "/"; }
+  function potN() { acc = num.value;  op = "pN"; }
+
+  // Operaciones unitarias (un operando)
+  function pot() { op = "p2";calcular();}
+  function raiz() { op = "sq";calcular(); }
+  function inverso() { op = "1/x";calcular();}
+  function parte_entera() { op = "int";calcular(); }
+
+  function calcular() {
+    if (op === "+") {num.value = (+acc + +num.value)}
+    if (op === "-") {num.value = (+acc - +num.value)}
+    if (op === "*") {num.value = (+acc * +num.value)}
+    if (op === "/") {num.value = (+acc / +num.value)}
+    if (op === "pN") {num.value = Math.pow(+acc, +num.value)}
+    if (op === "p2") {num.value = (num.value *= num.value)}
+    if (op === "1/x") {num.value = (1 / num.value)}
+    if (op === "sq") {num.value = (Math.sqrt(num.value))}
+    if (op === "int") {num.value = (num.value < 0 ? Math.ceil(num.value) : Math.floor(num.value))}
+  }
+
+  function inic ()   {num = document.getElementById("num");}
+  function vaciar () {num.value = "";}  
+</script>
+</head>
+<body onLoad="inic()">
+	<h1>Calculadora</h1>
+	<p>Buenos días, bienvenido a la calculadora de Marco Antonio González</p>
+	<h2>Requisitos del ejercicio</h2>
+	<p>Integrar en una sola calculadora los siguientes botones de operaciones matemáticas:</p>
+	<ol>
+		<li>) Operaciones unitarias (con un solo operando):
+			<ol>
+				<li>1) x^2 (número elevado al cuadrado)</li>
+				<li>2) 1/x (inverso del número)</li>
+				<li>3) sqrt(x) (raiz cuadrada del número)</li>
+				<li>4) parte_entera(x) (parte entera de x: si x es positivo devuelve Math.floor(x) y si es negativo devuelve -Math.ceil(x))</li>
+			</ol>
+		</li>
+		<li>) Operaciones binarias (con dos operandos):
+			<ol>
+				<li>1) +. -. *, / (suma, resta, multiplicación y división)</li>
+				<li>2) x^y (x elevado a y)</li>
+			</ol>
+		</li>
+	</ol>
+
+	<p>Número:<input type="text" size="12" id="num" onClick="vaciar()"></p>
+	<p>
+		<button onClick="mas()">+</button>
+		<button onClick="menos()">-</button>
+		<button onClick="multiplica()">*</button>
+		<button onClick="divide()">/</button>
+		<button onClick="potN()">x<sup>y</sup></button>
+		<button onClick="pot()">x<sup>2</sup></button>
+		<button onClick="inverso()">1/x</button>
+		<button onClick="raiz()">sqrt(x)</button>
+		<button onClick="parte_entera()">parte_entera(x)</button>
+		<button onClick="calcular()">=</button>
+	</p>
+</body>
+</html>

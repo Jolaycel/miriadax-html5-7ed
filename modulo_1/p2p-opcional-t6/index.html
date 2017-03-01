@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf­8">
+<title>Herencia</title>
+<style type="text/css">
+#caja .cabecera h1 {color:blue;}
+#caja header h1 {color:red;}
+header h1 {color:pink;}
+.cabecera h1 {color:blue;}
+h1 {color:purple;}
+</style>
+</head>
+<body>
+
+<div id="caja">
+
+<header class="cabecera">
+    <h1 style="color:purple">Cabecera: header</h1>
+</header>
+<!--
+ESTILO                           PUNTOS
+style="color:purple"             = 1000
+#caja .cabecera h1 {color:blue;} = 0111
+#caja header h1 {color:red;}     = 0102
+.cabecera h1 {color:blue;}       = 0011
+header h1 {color:pink;}          = 0002
+h1 {color:purple;}               = 0001
+-->
+</div>
+</body>
+</html>
