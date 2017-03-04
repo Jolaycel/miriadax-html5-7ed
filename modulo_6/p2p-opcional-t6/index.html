@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Menu plegable con Bootstrap</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#miMenu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span> 
+				</button>
+				<a class="navbar-brand" href="#brand">MAG</a>
+			</div>
+			<div class="collapse navbar-collapse" id="miMenu">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#menu-welcome">Welcome</a></li>
+					<li><a href="#menu-featured">Featured</a></li>
+					<li><a href="#menu-people">People</a></li> 
+					<li>
+						<a href="#menu-music" class="dropdown-toggle" data-toggle="dropdown">Music <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#music-opt-1">Music Opcion 1</a></li>
+							<li><a href="#music-opt-2">Music Opcion 2</a></li>
+							<li><a href="#music-opt-3">Music Opcion 3</a></li>
+						</ul>
+					</li> 
+					<li><a href="#menu-mixes">Mixes</a></li>
+					<li><a href="#menu-videos">Videos</a></li>
+					<li><a href="#menu-radio">Radio</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>
+</body>
+</html>
