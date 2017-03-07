@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Cronómetro en ms</title>
+<script type="text/javascript" src="js/jquery-2.1.4.js"> </script>
+<script type="text/javascript" src="js/jquery-ui.min.js"> </script>
+<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"> </script>
+<script type="text/javascript">
+    $(function() {
+        var t, cl = $("#crono");
+        function mostrar() {
+            cl.html((+cl.html() + 0.01).toFixed(2));
+        };
+        function arrancar() {
+            addCambioEstado(new Date(), 'Arrancado');
+            t = setInterval(mostrar, 100);
+        };
+        function parar() {
+            addCambioEstado(new Date(), 'Parar');
+            clearInterval(t);
+            t = undefined;
+        };
+        function cambiar() {
+            console.log('swipe');
+            if (!t) arrancar(); else parar();
+        };
+        /*$("#cambiar").on("click", cambiar);
+        $("#inicializar").on("click", function() {
+            if (!t) {
+                $("#historico").html("");
+                cl.html('0.00');
+            }
+        });*/
+        function addCambioEstado(fecha, estado) {
+            $("#historico").append(fecha + "[" + estado + "]" + "<br/>");
+        };
+        $("body").draggable({
+            stop: function() {
+                console.log('dragging');
+                if (!t) {
+                    $("#historico").html("");
+                    cl.html('0.00');
+                }
+            }
+        });
+        $("body").on("click", cambiar);
+    });
+</script>
+</head>
+<body>
+<h2>Cronómetro</h2>
+<p>Para la validación de esta práctica es necesario disponer de un dispositivo que permita disparar eventos como tap y swipe.</p>
+<h2><span id="crono"> 0.00 </span> segundos </h2>
+<!--
+<button type="button" id="cambiar"> arrancar / parar </button>
+<button type="button" id="inicializar">  inicializar </button>
+-->
+<h3>Histórico de cambios</h3>
+<p id="historico"></p>
+</body>
+</html>
