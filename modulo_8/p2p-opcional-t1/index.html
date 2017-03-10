@@ -14,7 +14,7 @@
         };
         function arrancar() {
             addCambioEstado(new Date(), 'Arrancado');
-            t = setInterval(mostrar, 100);
+            t = setInterval(mostrar, 10);
         };
         function parar() {
             addCambioEstado(new Date(), 'Parar');
@@ -37,7 +37,6 @@
         };
         $("body").draggable({
             stop: function() {
-                console.log('dragging');
                 if (!t) {
                     $("#historico").html("");
                     cl.html('0.00');
