@@ -1,44 +1,126 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>JavaScript. Algunos métodos de Arrays</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script>
-    var vista, frase_nueva;
+<meta charset="utf-8">
+<title>Citas con almacenamiento</title>
+<link rel="stylesheet" type="text/css" href="css/citas_slide.css" />
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="javascript/galeria.js" ></script>
+<script>
+var t, actual, galeria;
+localStorage.g = (localStorage.g || JSON.stringify(datos));
+galeria = JSON.parse(localStorage.g);
 
-    var frases = [
-        "Todo tiene belleza paro no todo el mundo la puede ver. Confucio.",
-        "Si dudas de ti mismo, estás vencido de antemano. Henrik Ibsen.",
-        "El silencio del envidioso está lleno de ruidos. Khalil Gibran.",
-        "La crítica es la fuerza del impotente. Alphonse de Lamartine."
-    ];
+function select(i){
+  actual = i;
+  $("nav a")
+    .removeClass("on off")
+    .addClass(function(j){return(j===i)?"on":"off";});
+  $("#persona").html(galeria[i].persona);
+  $("#frase").html(galeria[i].frase);
+  $("#foto").attr("src", galeria[i].foto);
+  localStorage.g = JSON.stringify(galeria);
+  clearTimeout(t);
+  t = setTimeout( function(){select((i + 1) % galeria.length);}, 2000);
+}
 
-    $(function (){
-        vista = $("#vista");
-        frase_nueva = $("#frase_nueva");
-        generar_vista();
+function generar_selector(){ // regenera la botonera
+  var selector = $("#selector");
+  selector.html("");
+  galeria.forEach(function(elem,i) {
+    selector.append("<li><a onClick='select("+i+")'></a></li>");
+  });
+}
 
-        $("#b1").on("click", function () {
-            frases.push(frase_nueva.val());
-            generar_vista();
-        });
-    });
-    function generar_vista() {
-        vista.html("");
-        for(var i = 0; i < frases.length; i++) {
-            vista.append("<p>" + frases[i] 
-                + "<button onclick='borrar(" + i + ");'>"
-                + "Borrar</button></p>");
-        }
+$(function (){
+  generar_selector();
+  $("#editar").on("click", function(){
+    clearTimeout(t);
+    $("#persona_d").html(galeria[actual].persona);
+    $("#frase_d").html(galeria[actual].frase);
+    $("#foto_d").html(galeria[actual].foto);
+    localStorage.g = JSON.stringify(galeria);
+    $("#datos").css("display", "block");
+  })
+
+  $("#nuevo").on("click", function(){
+    $("#datos").css("display", "none");
+    actual = galeria.push({
+       persona:$("#persona_d").html(),
+       frase:$("#frase_d").html(),
+       foto:$("#foto_d").html()
+    }) - 1;
+    generar_selector();
+    select(actual);
+  })
+
+  // Edicion de un slide
+  $("#guardar").on("click", function() {
+    $("#datos").css("display", "none");
+    galeria[actual].persona=$("#persona_d").html();
+    galeria[actual].frase=$("#frase_d").html();
+    galeria[actual].foto=$("#foto_d").html();
+    localStorage.g = JSON.stringify(galeria);
+    select(actual);
+  });
+
+  // Borrado de un slide
+  $("#borrar").on("click", function() {
+    $("#datos").css("display", "none");
+    // No borrar si es el ultimo
+    if (galeria.length > 1) {
+      galeria.splice(actual, 1);
+      localStorage.g = JSON.stringify(galeria);
+      generar_selector();
+      select(0);
     }
-    function borrar(i){ frases.splice(i,1); generar_vista(); }
-    </script>
+  });
+
+  // Restablece los valores iniciales del carrusel
+  $("#reset").on("click", function() {
+    if (confirm('Se dispone a restablecer los datos originales del carrusel. Pulse para confirmar.')) {
+      galeria = datos;
+      generar_selector(0);
+      select(0);
+    }
+  });
+
+  select(0);
+});
+</script>
 </head>
 <body>
-<h3>Citas Famosas</h3>
-<div id="vista"> </div>
-Frase: <input type="text" id="frase_nueva" />
-<button id="b1"> Añadir </button>
+<div class="contenido">
+  <nav> 
+    <ul id="selector"></ul>
+  </nav>
+  <section id="caja">
+    <img id="foto" alt="" />
+    <div class="textos">
+      <p id="frase"></p>
+      <p id="persona"></p>
+    </div>
+  </section>
+  <div class="editar">
+    <div id="reset">
+      <img src="images/reload-white.svg" height="14px" alt=""/>
+    </div>
+    <div id="editar">
+      <img src="images/carat-d-white.svg" alt=""/>
+    </div>
+  </div>
+  <section id="datos">
+    <div contentEditable="true" id="persona_d"></div>
+    <div contentEditable="true" id="frase_d"></div>
+    <div contentEditable="true" id="foto_d"></div>
+    <div id="botones">
+      <ul>
+        <li><img src="images/edit-black.svg" alt="" id="guardar"/></li>
+        <li><img src="images/plus-black.svg" alt="" id="nuevo"/></li>
+        <li><img src="images/delete-black.svg" alt="" id="borrar"/></li>
+      </ul>
+    </div>
+  </section>
+  </div>
 </body>
 </html>
