@@ -8,8 +8,25 @@
 <script type="text/javascript" src="gmaps.js"></script>
 <script type="text/javascript" src="zepto.min.js"></script>
 <script type="text/javascript">
-    var map, lat, lng;
+    var map, lat, lng, puntos;
+    localStorage.puntos = (localStorage.puntos || JSON.stringify([]));
+    puntos = JSON.parse(localStorage.puntos);
     $(function() {
+        function vaciar() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    map.removeMarkers();
+                    map.removePolylines();
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    map.addMarker({lat:lat, lng: lng});
+                    puntos.push([lat,lng]);
+                    localStorage.puntos = JSON.stringify(puntos);
+                }, function(position) {
+                    alert('El navegador no soporta geolocalizacion. ');
+                });
+            }
+        };
         function enlazarMarcador(e) {
             map.drawRoute({
                 origin: [lat, lng],
@@ -21,7 +38,9 @@
             });
             lat = e.latLng.lat();
             lng = e.latLng.lng();
-            map.addMarker({ lat: lat, lng: lng});
+            map.addMarker({lat:lat, lng: lng});
+            puntos.push([lat,lng]);
+            localStorage.puntos = JSON.stringify(puntos);
         };
         function geolocalizar() {
             GMaps.geolocate({
@@ -36,18 +55,37 @@
                         click: enlazarMarcador,
                         tap: enlazarMarcador
                     });
-                    map.addMarker({ lat: lat, lng: lng});
+                    if (puntos) {
+                        // siempre se toma el automatico como primero
+                        for(var i = 0; i < puntos.length; i++) {
+                            map.drawRoute({
+                                origin: [lat, lng],
+                                destination: [puntos[i][0], puntos[i][1]],
+                                travelMode: "driving",
+                                strokeColor: "#000000",
+                                strokeOpacity: 0.6,
+                                strokeWeight: 5
+                            });
+                            map.addMarker({lat:puntos[i][0], lng: puntos[i][1]});
+                            lat = puntos[i][0];
+                            lng = puntos[i][1];
+                        }
+                    }
+                    map.addMarker({lat:lat, lng: lng});
+                    puntos.push([lat,lng]);
+                    localStorage.puntos = JSON.stringify(puntos);
                 },
                 error: function(error) { alert("Error: " + error.message);},
                 not_supported: function() {alert("No soporta geolocalización.");}
             });
         };
         geolocalizar();
+        $("#reset").on("click", vaciar);
     });
 </script>
 </head>
 <body>
-    <h1>Geolocalizar</h1>
+    <h1>Geolocalizar<button id="reset">Inicializar</button></h1>
     <div id="map"></div>
 </body>
 </html>
