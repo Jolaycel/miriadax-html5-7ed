@@ -13,13 +13,13 @@
         function enlazarMarcador(e) {
             map.drawRoute({
                 origin: [lat, lng],
-                destinatarion: [e.latLng.lat(), e.latLng.lng()],
+                destination: [e.latLng.lat(), e.latLng.lng()],
                 travelMode: "driving",
                 strokeColor: "#000000",
                 strokeOpacity: 0.6,
                 strokeWeight: 5
             });
-            lag = e.latLng.lat();
+            lat = e.latLng.lat();
             lng = e.latLng.lng();
             map.addMarker({ lat: lat, lng: lng});
         };
