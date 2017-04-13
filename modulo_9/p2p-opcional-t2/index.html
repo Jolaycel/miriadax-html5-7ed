@@ -15,8 +15,11 @@
         function vaciar() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
+                    // Vaciar mapa y puntos
                     map.removeMarkers();
                     map.removePolylines();
+                    puntos = [];
+                    // Retablecer la posicion actual
                     lat = position.coords.latitude;
                     lng = position.coords.longitude;
                     map.addMarker({lat:lat, lng: lng});
