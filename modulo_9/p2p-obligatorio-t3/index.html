@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Geolocalización + Compactacion</title>
+<link rel="stylesheet" type="text/css" href="mypath.css">
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript" src="gmaps.js"></script>
+<script type="text/javascript" src="zepto.min.js"></script>
+<script type="text/javascript">
+    var map, lat, lng, puntos, inicial;
+    localStorage.puntos = (localStorage.puntos || JSON.stringify([]));
+    puntos = JSON.parse(localStorage.puntos);
+    $(function() {
+        function vaciar() {
+            // Vaciar mapa y puntos
+            map.removeMarkers();
+            map.removePolylines();
+            puntos = [];
+            localStorage.removeItem(puntos);
+            geolocalizar();
+        };
+        function enlazarMarcador(e) {
+            map.drawRoute({
+                origin: [lat, lng],
+                destination: [e.latLng.lat(), e.latLng.lng()],
+                travelMode: "driving",
+                strokeColor: "#000000",
+                strokeOpacity: 0.6,
+                strokeWeight: 5
+            });
+            // Actualiza lat y lng
+            lat = e.latLng.lat();
+            lng = e.latLng.lng();
+            map.addMarker({lat: lat, lng: lng});
+            puntos.push([lat, lng]);
+            localStorage.puntos = JSON.stringify(puntos);
+        };
+        function compactar() {
+            // Comprobar si puntos tiene mas de un punto y el punto inicial esta definido
+            if (puntos.length > 1 && inicial) {
+                // Guarda el ultimo punto marcado
+                var ultimoPunto = puntos[puntos.length - 1];
+                // inicializa el mapa y los puntos
+                vaciar(); 
+                // Almacena de nuevo el punto inicial y el ultimo guardado
+                puntos.push(inicial);
+                puntos.push(ultimoPunto);
+                // Marca la ruta entre los puntos
+				for (var i = 0; i < puntos.length; i++) {
+                    map.drawRoute({
+                        origin: [lat, lng],
+                        destination: [puntos[i][0], puntos[i][1]],
+                        travelMode: "driving",
+                        strokeColor: "#000000",
+                        strokeOpacity: 0.6,
+                        strokeWeight: 5
+                    });
+                    // Incluye el marcador del punto de la ruta
+                    map.addMarker({lat: puntos[i][0], lng: puntos[i][1]});
+                    // Asigna el punto recien pintado como punto de partida del siguiente
+                    lat = puntos[i][0];
+                    lng = puntos[i][1];
+                }
+				// Elimina todos los puntos posteriores al primero y añade el del click
+				puntos.length = 1;
+                puntos.push([lat, lng]);
+
+                localStorage.puntos = JSON.stringify(puntos);
+            } else { 
+                alert('No se puede compactar. ');
+            }
+        };
+        function geolocalizar() {
+            GMaps.geolocate({
+                success: function(position) {
+                    // Usa la geolocalizacion como punto de partida de la ruta y la guarda en el array
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    // Pinta el mapa centrado en el punto inicial
+                    inicial = [lat, lng];
+                    map = new GMaps({
+                        el: "#map",
+                        lat: lat,
+                        lng: lng,
+                        zoom: 17,
+                        click: enlazarMarcador,
+                        tap: enlazarMarcador
+                    });
+                    // Si no hay puntos anteriores, inicializa el primero en el array
+                    if (puntos.length == 0) {
+                        puntos.push([lat, lng]);
+                    }
+                    if (puntos) {
+                        // siempre se toma el último como origen de la ruta
+                        for (var i = 0; i < puntos.length; i++) {
+                            map.drawRoute({
+                                origin: [lat, lng],
+                                destination: [puntos[i][0], puntos[i][1]],
+                                travelMode: "driving",
+                                strokeColor: "#000000",
+                                strokeOpacity: 0.6,
+                                strokeWeight: 5
+                            });
+                            // Incluye el marcador del punto de la ruta
+                            map.addMarker({lat: puntos[i][0], lng: puntos[i][1]});
+                            // Asigna el punto recien pintado como punto de partida del siguiente
+                            lat = puntos[i][0];
+                            lng = puntos[i][1];
+                        }
+                    }
+                    localStorage.puntos = JSON.stringify(puntos);
+                },
+                error: function(error) { alert("Error: " + error.message);},
+                not_supported: function() {alert("No soporta geolocalización.");}
+            });
+        };
+        geolocalizar();
+        $("#reset").on("click", vaciar);
+        $("#compactar").on("click", compactar);
+    });
+</script>
+</head>
+<body>
+    <h1>Geolocalizar
+    <button id="reset">Inicializar</button>
+    <button id="compactar">Compactar</button></h1>
+    <div id="map"></div>
+</body>
+</html>
